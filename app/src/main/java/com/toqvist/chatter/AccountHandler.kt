@@ -3,7 +3,7 @@ package com.toqvist.chatter
 
 class AccountHandler {
 
-    var activeUser: String? = null
+    public var activeUser: String? = null
 
     fun login (username: String, password: String): Boolean {
         if (username == "user1" && password == "password") {
@@ -16,6 +16,11 @@ class AccountHandler {
         }
 
         return false
+    }
+
+    @JvmName("getActiveUser1")
+    fun getActiveUser(): String? {
+        return this.activeUser
     }
 
 }

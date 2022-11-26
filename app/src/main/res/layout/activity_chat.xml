@@ -7,14 +7,11 @@
     tools:context=".ChatActivity">
 
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chatbox"
+    <EditText
+        android:id="@+id/messageForm"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#A5A5A5"
-        android:editable="true"
         android:hint="Enter message"
-        android:textColor="#F1EFEF"
         app:layout_constraintEnd_toStartOf="@id/buttonSend"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chatHistory"/>
@@ -25,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Send"
         app:layout_constraintTop_toBottomOf="@id/chatHistory"
-        app:layout_constraintStart_toEndOf="@id/chatbox"
+        app:layout_constraintStart_toEndOf="@id/messageForm"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
