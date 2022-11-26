@@ -11,6 +11,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 
 class ChatActivity : AppCompatActivity() {
@@ -29,19 +30,14 @@ class ChatActivity : AppCompatActivity() {
         val messageForm = findViewById<EditText>(R.id.messageForm)
         val sendMessageButton = findViewById<Button>(R.id.buttonSend)
 
-        addMessageToChat("hey", "suer", chatHistory)
-        sendMessage("test", "usertest2")
+        getMessages(chatHistory)
 
         sendMessageButton.setOnClickListener {
             val message = messageForm.text.toString()
             //val sender = accountHandler.getActiveUser().toString()
             val sender = "testuser"
 
-            //addMessageToChat(message, sender, chatHistory)
             sendMessage(message,sender)
-
-            //val toast = Toast.makeText(this, sender, Toast.LENGTH_LONG)
-            //toast.show()
         }
     }
 
@@ -73,5 +69,27 @@ class ChatActivity : AppCompatActivity() {
                 val toast = Toast.makeText(this, "Failed", Toast.LENGTH_LONG)
                 toast.show()
             }
+    }
+
+    private fun getMessages (chatHistory: ChipGroup) {
+        val db = Firebase.firestore
+
+        var messages =  LinkedList<String>();
+
+        db.collection("messages")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+
+                    addMessageToChat(document.get("text").toString(),document.get("user").toString(),chatHistory)
+                    //messages.add(document.data.toString())
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
+
+
     }
 }
