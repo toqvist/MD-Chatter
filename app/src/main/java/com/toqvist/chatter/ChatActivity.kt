@@ -30,7 +30,7 @@ class ChatActivity : AppCompatActivity() {
         val sendMessageButton = findViewById<Button>(R.id.buttonSend)
 
         addMessageToChat("hey", "suer", chatHistory)
-
+        sendMessage("test", "usertest2")
 
         sendMessageButton.setOnClickListener {
             val message = messageForm.text.toString()
@@ -60,6 +60,7 @@ class ChatActivity : AppCompatActivity() {
         )
 
         val db = Firebase.firestore
+
         db.collection("messages")
             .add(chatMessage)
             .addOnSuccessListener { documentReference ->
