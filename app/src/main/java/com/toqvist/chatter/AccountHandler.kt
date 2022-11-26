@@ -1,17 +1,20 @@
 package com.toqvist.chatter
 
+import android.widget.Toast
+
 
 class AccountHandler {
 
-    public var activeUser: String? = null
+    var activeUser: String? = null
 
     fun login (username: String, password: String): Boolean {
         if (username == "user1" && password == "password") {
-            activeUser = "user1"
+            //String is immutable in kotlin, change later
+            this.activeUser = "user1"
             return true
         }
         if (username == "user2" && password == "password") {
-            activeUser = "user2"
+            this.activeUser = "user2"
             return true
         }
 

@@ -25,16 +25,16 @@ class ChatActivity : AppCompatActivity() {
         val messageForm = findViewById<EditText>(R.id.messageForm)
         val sendMessageButton = findViewById<Button>(R.id.buttonSend)
 
-        addMessage("hello", "user", chatHistory)
+        addMessage("hey", "suer", chatHistory)
+
 
         sendMessageButton.setOnClickListener {
             val message = messageForm.text.toString()
             val sender = accountHandler.getActiveUser().toString()
 
-
             addMessage(message, sender, chatHistory)
 
-            val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+            val toast = Toast.makeText(this, sender, Toast.LENGTH_LONG)
             toast.show()
         }
     }
@@ -42,8 +42,7 @@ class ChatActivity : AppCompatActivity() {
     fun addMessage(message: String, sender: String, chatHistory: ChipGroup) {
 
         val newChip = Chip(this)
-        //newChip.setText(sender + " : " + message)
-        newChip.setText(message)
+        newChip.setText(sender + " : " + message)
 
         chatHistory?.addView(newChip)
     }
