@@ -14,10 +14,9 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 
 
-class ChatActivity : AppCompatActivity() {
+open class ChatActivity : AppCompatActivity() {
 
-//    val chatHistory = findViewById<ChipGroup>(R.id.chatHistory)
-    var chatMessages = 0
+    open var chatMessages = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +24,7 @@ class ChatActivity : AppCompatActivity() {
 
         val chatHistory = findViewById<ChipGroup>(R.id.chatHistory)
 
-        val accountHandler = AccountHandler()
+        val accountManager = AccountManager()
 
         val messageForm = findViewById<EditText>(R.id.messageForm)
         val sendMessageButton = findViewById<Button>(R.id.buttonSend)
@@ -34,8 +33,7 @@ class ChatActivity : AppCompatActivity() {
 
         sendMessageButton.setOnClickListener {
             val message = messageForm.text.toString()
-            //val sender = accountHandler.getActiveUser().toString()
-            val sender = "testuser"
+            val sender = accountManager.getActiveUser()
 
             sendMessage(message,sender)
         }
@@ -50,17 +48,19 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(message: String, sender: String) {
+
+        chatMessages++
         val chatMessage = hashMapOf(
             "text" to message,
-            "user" to sender
+            "user" to sender,
         )
 
         val db = Firebase.firestore
 
-        db.collection("messages")
-            .add(chatMessage)
+        db.collection("messages").document(chatMessages.toString())
+            .set(chatMessage)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                //Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                 val toast = Toast.makeText(this, "Submitted", Toast.LENGTH_LONG)
                 toast.show()
             }
@@ -74,22 +74,28 @@ class ChatActivity : AppCompatActivity() {
     private fun getMessages (chatHistory: ChipGroup) {
         val db = Firebase.firestore
 
-        var messages =  LinkedList<String>();
+        var messagesInHistory = 0
 
         db.collection("messages")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
 
-                    addMessageToChat(document.get("text").toString(),document.get("user").toString(),chatHistory)
-                    //messages.add(document.data.toString())
+                    val message = document.get("text").toString()
+                    val user = document.get("user").toString()
+
+                    addMessageToChat(message, user, chatHistory)
+
+                    messagesInHistory++
+
                     Log.d(TAG, "${document.id} => ${document.data}")
                 }
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-
-
+        chatMessages = messagesInHistory
     }
+
+
 }

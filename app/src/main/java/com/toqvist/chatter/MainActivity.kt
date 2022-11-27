@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity() {
 
         val loginButton = findViewById<Button>(R.id.buttonLogin)
 
-        val accountHandler = AccountHandler()
+        val accountManager = AccountManager()
         loginButton.setOnClickListener {
 
-            val loginSuccess = accountHandler.login(username.text.toString(),password.text.toString())
+            val loginSuccess = accountManager.login(username.text.toString(),password.text.toString())
 
             if (loginSuccess) {
                 val goToChat = Intent(this, ChatActivity::class.java)
