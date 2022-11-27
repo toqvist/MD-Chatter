@@ -21,6 +21,19 @@ open class AccountManager {
         return false
     }
 
+    fun register (username: String, password: String): Boolean {
+        if (username == "user1") {
+            setActiveUser("user1")
+            return false
+        }
+        if (username == "user2") {
+            setActiveUser("user2")
+            return false
+        }
+
+        return true
+    }
+
     fun setActiveUser(username: String) {
         activeUser = Account(username)
     }

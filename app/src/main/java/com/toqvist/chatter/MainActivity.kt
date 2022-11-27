@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.formPassword)
 
         val loginButton = findViewById<Button>(R.id.buttonLogin)
+        val registerButton = findViewById<Button>(R.id.buttonRegister)
 
         val accountManager = AccountManager()
         loginButton.setOnClickListener {
@@ -29,7 +30,11 @@ class MainActivity : AppCompatActivity() {
                 val toast = Toast.makeText(this, "Login failed", Toast.LENGTH_LONG)
                 toast.show()
             }
+        }
 
+        registerButton.setOnClickListener {
+            val goToRegister = Intent(this, RegisterActivity::class.java)
+            startActivity(goToRegister)
         }
     }
 }
