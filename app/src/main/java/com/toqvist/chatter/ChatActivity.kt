@@ -2,6 +2,8 @@ package com.toqvist.chatter
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.text.Editable
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -40,8 +42,23 @@ open class ChatActivity : AppCompatActivity() {
             getMessages(chatHistory)
 
             messageForm.text = null
-
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
+        val messageForm = findViewById<EditText>(R.id.messageForm)
+        outState.putString("messageInput", messageForm.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val messageForm = findViewById<EditText>(R.id.messageForm)
+        val message = savedInstanceState.getString("messageInput")
+        messageForm.text = message as Editable
+
     }
 
     fun addMessageToChat(message: String, sender: String, chatHistory: ChipGroup) {
