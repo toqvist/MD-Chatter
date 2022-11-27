@@ -39,6 +39,8 @@ open class ChatActivity : AppCompatActivity() {
             clearChatHistory(chatHistory)
             getMessages(chatHistory)
 
+            messageForm.text = null
+
         }
     }
 
